@@ -137,8 +137,6 @@ const internPrompt = () => {
                 team.push(intern);
                 return addEmployeePrompt();
             })
-
-
 }
 
 const init = async function () {
