@@ -10,21 +10,21 @@ const generateCards = employees => {
             let email = employees[i].email;
             let officeNum = employees[i].officeNum;
             const manager = `
-            <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-              <div class="card-header">
-                <h3>${name}<h3>
-                <h4 class="ps-2">Manager</h4>
-              </div>
-              <div class="card-body">
-                <ul class="list-group list-group">
-                  <li class="list-group-item">ID: ${id}</li>
-                  <li class="list-group-item">Email: <a href="mailto:${email} target="_blank">${email}</a></li>
-                  <li class="list-group-item">Office number: ${officeNum}</li>
-                </ul>
-              </div>
+            <div class="col-md-4 col-sm-6 col-12 col-lg-3">
+                <div class="card shadow-md bg-white rounded">
+                <div class="card-body">
+                    <div class="card-title bg-primary">
+                        <h3 class="fs-1">${name}<h3>
+                        <h4 class="fs-2">Manager</h4>
+                    </div>
+                    <ul class="list-group">
+                    <li class="list-group-item">ID: ${id}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${email} target="_blank">${email}</a></li>
+                    <li class="list-group-item">Office number: ${officeNum}</li>
+                    </ul>
+                </div>
+                </div>
             </div>
-          </div>
           `;
             team.push(manager)
 
@@ -34,18 +34,20 @@ const generateCards = employees => {
             let email = employees[i].email;
             let github = employees[i].github;
             const engineer = `
-            <div class="card">
-              <div class="card-body">
-                <div class="card-title">
-                    <h3>${name}<h3>
-                    <h4 class="ps-2">Engineer</h4>
+            <div class="col-md-4 col-sm-6 col-12 col-lg-3">
+                <div class="card shadow-md bg-white rounded">
+                <div class="card-body">
+                    <div class="card-title bg-primary">
+                        <h3 class="fs-1">${name}<h3>
+                        <h4 class="fs-2">Engineer</h4>
+                    </div>
+                    <ul class="list-group">
+                    <li class="list-group-item">ID: ${id}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${email} target="_blank">${email}</a></li>
+                    <li class="list-group-item">GitHub: <a href="https://www.github.com/${github}" target="_blank">${github}</a></li>
+                    </ul>
                 </div>
-                <ul class="list-group">
-                  <li class="list-group-item">ID: ${id}</li>
-                  <li class="list-group-item">Email: <a href="mailto:${email} target="_blank">${email}</a></li>
-                  <li class="list-group-item">GitHub: <a href="https://www.github.com/${github}" target="_blank">${github}</a></li>
-                </ul>
-              </div>
+                </div>
             </div>
             `;
             team.push(engineer)
@@ -56,21 +58,21 @@ const generateCards = employees => {
             let email = employees[i].email;
             let school = employees[i].school
             const intern = `
-            <div class="col-12 col-md-6 col-lg-4">
-            <div class="card">
-              <div class="card-title">
-                <h3>${name}<h3>
-                <h4 class="ps-2">Intern</h4>
-              </div>
-              <div class="card-body bg-light">
-                <ul class="list-group list-group">
-                  <li class="list-group-item">ID: ${id}</li>
-                  <li class="list-group-item">Email: <a href="mailto:${email} target="_blank">${email}</a></li>
-                  <li class="list-group-item">School: ${school}</li>
-                </ul>
-              </div>
+            <div class="col-md-4 col-sm-6 col-12 col-lg-3">
+                <div class="card shadow-md bg-white rounded">
+                <div class="card-body">
+                    <div class="card-title bg-primary">
+                        <h3 class="fs-1">${name}<h3>
+                        <h4 class="fs-2">Intern</h4>
+                    </div>
+                    <ul class="list-group">
+                    <li class="list-group-item">ID: ${id}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${email} target="_blank">${email}</a></li>
+                    <li class="list-group-item">School: ${school}</li>
+                    </ul>
+                </div>
+                </div>
             </div>
-          </div>
             `;
             team.push(intern)
         }
@@ -81,7 +83,7 @@ const generateCards = employees => {
 
 module.exports = employees => {
 
-return `
+    return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,12 +95,16 @@ return `
 </head>
 <body>
     <header>
-        <div class="justify-content-center">
+        <div class="jumbotron text-center bg-danger">
             <h1>My Team</h1>
         </div>
     </header>
     <main>
-        ${generateCards(employees)}
+        <div class="container-body container-fluid">
+            <div class="row">
+                ${generateCards(employees)}
+            </div>
+        </div>
     </main>
     </body>
     </html>
