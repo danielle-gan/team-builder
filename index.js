@@ -1,87 +1,149 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-// const html = require("./src/htmlTemplate");
-const Manager = require("./lib/manager.js");
-const Engineer = require("./lib/engineer.js");
-const Intern = require("./lib/intern.js");
+const Manager = require("./lib/Manager.js");
+const Engineer = require("./lib/Engineer.js");
+const Intern = require("./lib/Intern.js");
+const { writeFile } = require("./src/generatePage.js")
+const generatePage = require("./src/htmlTemplate.js");
 
-let teamArray = [];
-let finished = "";
+let team = [];
 
-responseBasic = inquirer
-    .prompt([
+managerPrompt = () => {
+    return inquirer.prompt([
         {
             type: "input",
             name: "name",
-            message: "What is the employee's name?"
+            message: "What is the manager's name?"
         },
         {
             type: "input",
             name: "id",
-            message: "What is the employee's ID number?"
+            message: "What is the manager's ID number?"
         },
         {
             type: "input",
             name: "email",
-            message: "What is the employee's email address?"
+            message: "What is the manager's email address?"
         },
+        {
+            type: "input",
+            name: "officeNum",
+            message: "What is their office number?"
+        }
+    ])
+        .then((answers) => {
+            const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNum);
+            team.push(manager);
+            return addEmployeePrompt();
+        })
+}
+
+const addEmployeePrompt = () => {
+    return inquirer.prompt(
+        {
+            type: "confirm",
+            name: "finished",
+            message: "Would you like to add another employee?",
+            default: false
+        }
+    )
+        .then((answers) => {
+            if (answers.finished) {
+                return typeEmployee();
+            }
+            else {
+                return generatePage(team);
+            }
+        })
+}
+
+const typeEmployee = () => {
+    return inquirer.prompt(
         {
             type: "list",
             name: "role",
-            message: "What is the employee's role?",
+            message: "What kind of employee would you like to add?",
             choices: [
-                "Manager",
                 "Engineer",
                 "Intern"
             ]
-        }])
-    .then((answers) => {
-        console.log(answers.role);
-        if (answers.role == "Manager") {
-            inquirer
-                .prompt([
-                    {
-                        type: "input",
-                        name: "officeNum",
-                        message: "What's the manager's office number?"
-                    }
-                ])
-            const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNum);
-            teamArray.push(manager);
+        })
+        .then((answers) => {
+            if (answers.role === "Engineer") {
+                return engineerPrompt();
+            }
+            else if (answers.role === "Intern") {
+                return internPrompt();
+            }
         }
+        )
+}
 
-
-        else if (answers.role == "Engineer") {
-            inquirer
-                .prompt([
-                    {
-                        type: "input",
-                        name: "github",
-                        message: "What's the engineer's github username?"
-                    }
-                ])
-
-            const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
-            teamArray.push(engineer);
+const engineerPrompt = () => {
+    return inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "What is the engineer's name?"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the engineer's ID number?"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is the engineer's email address?"
+        },
+        {
+            type: "input",
+            name: "github",
+            message: "What is their Github username?"
         }
-        else if (answers.role == "Intern") {
-            inquirer.prompt([
-                {
-                    type: "input",
-                    name: "school",
-                    message: "What school is the intern from?"
-                }
-            ])
-            const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-            teamArray.push(intern);
+    ])
+        .then((answers) => {
+            const engineer = (new Engineer(answers.name, answers.employeeId, answers.email, answers.github));
+            team.push(engineer);
+            return addEmployeePrompt();
+        })
+}
+
+const internPrompt = () => {
+    return inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "What is the intern's name?"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the intern's ID number?"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is the intern's email address?"
+        },
+        {
+            type: "input",
+            name: "school",
+            message: "What school do they go to?"
         }
-    })
-    .then((answers) => {
-        console.log(teamArray);
-        // for (let i = 0; i < teamArray.length; i++) {
-        //     teamString = teamString + html.generateCard(teamArray[i]);
-        // }
-    })
+    ])
+            .then((answers) => {
+                const intern = new Intern(answers.name, answers.employeeId, answers.email, answers.school);
+                team.push(intern);
+                return addEmployeePrompt();
+            })
 
 
+}
 
+const init = async function () {
+    const HTML = await managerPrompt();
+    writeFile(HTML);
+}
+
+init();
