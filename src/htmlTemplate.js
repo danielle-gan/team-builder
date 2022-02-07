@@ -1,8 +1,6 @@
 let team = [];
 
 const generateCards = employees => {
-    console.log(employees)
-
     for (let i = 0; i < employees.length; i++) {
         if (employees[i].getRole() === "Manager") {
             let name = employees[i].name
@@ -93,7 +91,7 @@ module.exports = employees => {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>My Team</title>
 </head>
-<body>
+<body> 
     <header>
         <div class="jumbotron text-center bg-danger">
             <h1>My Team</h1>
